@@ -1,6 +1,8 @@
 package com.projet.aplirep;
 
-public class Article {
+import java.io.Serializable;
+
+public class Article implements Serializable {
 
     String nom;
     double prix;

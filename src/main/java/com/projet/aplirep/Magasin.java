@@ -1,12 +1,15 @@
 package com.projet.aplirep;
 
+import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
+import java.rmi.*;
 
-public class Magasin implements InterMagasin{
+public class Magasin extends UnicastRemoteObject implements InterMagasin {
 
     List<Article> lArticle;
 
-    public Magasin(List<Article> lA){
+    public Magasin(List<Article> lA) throws RemoteException {
+        super();
         lArticle=lA;
     }
 

@@ -4,6 +4,7 @@ module com.projet.aplirep {
 
     requires org.controlsfx.controls;
     requires org.kordamp.bootstrapfx.core;
+    requires java.rmi;
 
     opens com.projet.aplirep to javafx.fxml;
     exports com.projet.aplirep;
