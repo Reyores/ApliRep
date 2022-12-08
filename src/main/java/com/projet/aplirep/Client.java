@@ -1,5 +1,7 @@
 package com.projet.aplirep;
 
+import com.magasin.InterMagasin;
+
 public class Client {
 
     String nom, prenom, email;

@@ -1,5 +1,7 @@
 package com.projet.aplirep;
 
+import com.magasin.Article;
+
 import java.util.List;
 
 public class Panier {

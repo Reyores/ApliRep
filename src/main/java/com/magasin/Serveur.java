@@ -1,4 +1,4 @@
-package com.projet.aplirep;
+package com.magasin;
 
 public class Serveur {
 

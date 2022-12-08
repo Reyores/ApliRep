@@ -10,4 +10,6 @@ module com.projet.aplirep {
     exports com.projet.aplirep;
     exports com.examples;
     opens com.examples to javafx.fxml;
+    exports com.magasin;
+    opens com.magasin to javafx.fxml;
 }
