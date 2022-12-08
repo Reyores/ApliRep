@@ -4,8 +4,8 @@ import java.util.List;
 
 public interface InterMagasin {
 
-    public List<Article> afficherArticles();
+    List<Article> afficherArticles();
 
-    public boolean effectuerPaiement();
+    boolean effectuerPaiement();
 
 }
