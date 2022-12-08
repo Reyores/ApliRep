@@ -7,4 +7,6 @@ module com.projet.aplirep {
 
     opens com.projet.aplirep to javafx.fxml;
     exports com.projet.aplirep;
+    exports com.examples;
+    opens com.examples to javafx.fxml;
 }
