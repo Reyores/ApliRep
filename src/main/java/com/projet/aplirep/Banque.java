@@ -2,18 +2,22 @@ package com.projet.aplirep;
 
 import com.magasin.Magasin;
 
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Banque {
+public class Banque extends UnicastRemoteObject implements BanqueInterface {
 
     List<CompteBancaire> lComptesBancaires;
 
-    public Banque() {
+    public Banque() throws RemoteException {
+        super();
         lComptesBancaires=new ArrayList<>();
     }
 
-    public Banque(List<CompteBancaire> lComptesBancaires) {
+    public Banque(List<CompteBancaire> lComptesBancaires) throws RemoteException {
+        super();
         this.lComptesBancaires = lComptesBancaires;
     }
 
@@ -32,7 +36,8 @@ public class Banque {
      * @param sommeAPayer
      * @return
      */
-    boolean estSolvable(String id, double sommeAPayer){
+    @Override
+    public boolean estSolvable(String id, double sommeAPayer){
         boolean res=false;
         if(verifierIden(id)){
             CompteBancaire compteBancaire=lComptesBancaires.get(getIndexCompteBancaire(id));

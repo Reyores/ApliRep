@@ -14,4 +14,12 @@ public class Article implements Serializable {
         image=i;
     }
 
+    @Override
+    public String toString() {
+        return "Article{" +
+                "nom='" + nom + '\'' +
+                ", prix=" + prix +
+                ", image='" + image + '\'' +
+                '}';
+    }
 }
