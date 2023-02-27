@@ -2,18 +2,27 @@ package com.projet.aplirep;
 
 import com.magasin.Article;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class Panier {
 
-    List<Article> lArticles;
+    HashMap<Article,Integer> lArticles;
 
-    public void ajouterArticle(Article a){
-        lArticles.add(a);
+    public Panier(){
+        lArticles=new HashMap<>();
     }
 
-    public void retirerArticle(Article a){
-        lArticles.remove(a);
+    public void ajouterArticle(Article a, int quantite){
+        lArticles.put(a,quantite);
+    }
+
+    public void retirerArticle(Article a, int quantite){
+        lArticles.remove(a,quantite);
+    }
+
+    public HashMap<Article,Integer> getPanier(){
+        return lArticles;
     }
 
 }
