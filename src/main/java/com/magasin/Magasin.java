@@ -6,6 +6,7 @@ import com.projet.aplirep.Panier;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
 import java.rmi.*;
@@ -22,6 +23,15 @@ public class Magasin extends UnicastRemoteObject implements InterMagasin {
     public Magasin(List<Article> lA) throws RemoteException {
         super();
         lArticle=lA;
+    }
+
+    /**
+     * constructeur par defaut
+     * @throws RemoteException
+     */
+    public Magasin() throws RemoteException {
+        super();
+        lArticle=new ArrayList<>();
     }
 
     /**

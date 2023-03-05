@@ -8,10 +8,10 @@ public class Article implements Serializable {
     double prix;
     String image;
 
-    public Article(String n,double p,String i){
-        nom=n;
-        prix=p;
-        image=i;
+    public Article(String nom,double prix,String image){
+        this.nom=nom;
+        this.prix=prix;
+        this.image=image;
     }
 
     @Override

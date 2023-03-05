@@ -3,6 +3,7 @@ package com.projet.aplirep;
 import com.magasin.Article;
 import com.magasin.InterMagasin;
 
+import java.rmi.RemoteException;
 import java.util.List;
 
 public class Client {
@@ -21,7 +22,7 @@ public class Client {
         this.magasin = null;
     }
 
-    public void connexionMagasin(InterMagasin mag){
+    public void connexionMagasin(InterMagasin mag) throws RemoteException {
         magasin=mag;
 
         List<Article> lArticles=mag.afficherArticles();
