@@ -3,6 +3,7 @@ package com.controllers;
 import com.projet.aplirep.Banque;
 import com.projet.aplirep.BanqueInterface;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -46,7 +47,11 @@ public class BanqueLauncher extends Application {
     }
 
     public static void updateAffichage(){
-        banqueController.loadComptes(banque);
+
+        Platform.runLater(()-> {banqueController.loadComptes(banque);});
+
+
+
     }
 
 

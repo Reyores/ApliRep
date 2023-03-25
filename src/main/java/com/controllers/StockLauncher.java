@@ -5,6 +5,7 @@ import com.magasin.InterMagasin;
 import com.magasin.Magasin;
 import com.projet.aplirep.Panier;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -86,7 +87,10 @@ public class StockLauncher extends Application {
            Panier panier1 = new Panier();
            panier1.ajouterArticle(baguette,1);
 
-           boulanger.effectuerPaiement("1234",panier1);
+
+
+               boulanger.effectuerPaiement("1234", panier1);
+
 
 
 
@@ -100,7 +104,7 @@ public class StockLauncher extends Application {
     }
 
     public static void updateAffichage(){
-        stockController.loadStock(decathon,boulanger);
+        Platform.runLater(()-> {stockController.loadStock(decathon,boulanger);});
     }
 
 
