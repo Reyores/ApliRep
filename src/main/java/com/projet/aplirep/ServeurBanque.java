@@ -7,7 +7,7 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class ServeurBanque
 {
-    public static void main(String[] argv)
+    public static void main(String[] args)
     {
         try
         {

@@ -1,16 +1,14 @@
 package com.magasin;
 
+import com.controllers.StockLauncher;
 import com.projet.aplirep.BanqueInterface;
 import com.projet.aplirep.Panier;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.HashMap;
+import java.util.*;
 import java.rmi.*;
-import java.util.Map;
 
 public class Magasin extends UnicastRemoteObject implements InterMagasin {
 
@@ -60,8 +58,21 @@ public class Magasin extends UnicastRemoteObject implements InterMagasin {
         }
         catch (Exception e)
         {
-
+            System.out.println("erreur aaf" + e.getMessage());
         }
+
+        if(success){
+            Iterator iterator = panier.getPanier().entrySet().iterator();
+            while (iterator.hasNext()){
+                Map.Entry mapentry = (Map.Entry) iterator.next();
+                int idx = lArticle.indexOf(mapentry.getKey());
+                lArticle.get(idx).retirerStock((Integer) mapentry.getValue());
+                System.out.println("stock ! " +lArticle.get(idx).getStock());
+                StockLauncher.updateAffichage();
+            }
+        }
+
+        System.out.println("ALORS ?" + success);
         return success;
     }
 

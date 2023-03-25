@@ -8,10 +8,13 @@ public class Article implements Serializable {
     double prix;
     String image;
 
-    public Article(String nom,double prix,String image){
+    int stock;
+
+    public Article(String nom,double prix,String image, int stock){
         this.nom=nom;
         this.prix=prix;
         this.image=image;
+        this.stock = stock;
     }
 
     @Override
@@ -21,5 +24,17 @@ public class Article implements Serializable {
                 ", prix=" + prix +
                 ", image='" + image + '\'' +
                 '}';
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public void retirerStock(int nb){
+        stock = stock - nb;
     }
 }
