@@ -11,8 +11,8 @@ public class Main
 {
     public static void main(String[] args)
     {
-        Article article1 = new Article("Article1", 22, "image");
-        Article article2 = new Article("Article2", 15, "image2");
+        Article article1 = new Article("Article1", 22, "image",10);
+        Article article2 = new Article("Article2", 15, "image2",10);
 
         List<Article> list = new ArrayList<Article>();
         list.add(article1);
