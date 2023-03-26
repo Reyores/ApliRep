@@ -1,5 +1,6 @@
 package com.projet.aplirep;
 
+import com.controllers.BanqueLauncher;
 import com.magasin.Magasin;
 
 import java.rmi.RemoteException;
@@ -7,13 +8,21 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Banque extends UnicastRemoteObject implements BanqueInterface {
+public class Banque extends UnicastRemoteObject implements BanqueInterface{
 
     List<CompteBancaire> lComptesBancaires;
 
     public Banque() throws RemoteException {
         super();
         lComptesBancaires=new ArrayList<>();
+        CompteBancaire cb1 = new CompteBancaire("1234",300);
+        CompteBancaire cb2 = new CompteBancaire("4567",125.5);
+        CompteBancaire cb3 = new CompteBancaire("7890",10.75);
+
+        lComptesBancaires.add(cb1);
+        lComptesBancaires.add(cb2);
+        lComptesBancaires.add(cb3);
+
     }
 
     public Banque(List<CompteBancaire> lComptesBancaires) throws RemoteException {
@@ -41,9 +50,12 @@ public class Banque extends UnicastRemoteObject implements BanqueInterface {
         boolean res=false;
         if(verifierIden(id)){
             CompteBancaire compteBancaire=lComptesBancaires.get(getIndexCompteBancaire(id));
-            if (compteBancaire.getSomme()>=sommeAPayer)
+            if (compteBancaire.getSomme()>=sommeAPayer){
                 res=true;
+                compteBancaire.setSomme(compteBancaire.getSomme() - sommeAPayer);
+            }
         }
+        BanqueLauncher.updateAffichage();
         return res;
     }
 
@@ -94,6 +106,14 @@ public class Banque extends UnicastRemoteObject implements BanqueInterface {
             }
         }
         return res;
+    }
+
+    public List<CompteBancaire> getAllComptes(){
+        return lComptesBancaires;
+    }
+
+    public void update(){
+
     }
 
 }

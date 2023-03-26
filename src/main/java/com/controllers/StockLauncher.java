@@ -1,21 +1,33 @@
-package com.magasin;
+package com.controllers;
 
+import com.magasin.Article;
+import com.magasin.InterMagasin;
+import com.magasin.Magasin;
+import com.projet.aplirep.Panier;
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
 
-public class Serveur {
+public class StockLauncher extends Application {
 
-    public static void main(String[] args) {
-        System.out.println("Lancement serveurs Magasin");
+    static StockController stockController;
+    static Magasin decathon;
+    static Magasin boulanger;
 
-        int port=4330;
-
-        try
-        {
+    @Override
+    public void start(Stage stage) throws Exception {
+        try{
+            int port=4330;
             Registry reg = LocateRegistry.createRegistry(port);
-        //magasin Decathon
-            //preparation articles Decathon
+
             Article velo=new Article("VELO VTT RANDONNEE",360,"velo.png",12);
             Article but=new Article("BUT DE FOOTBALL",150,"but_footabll.png",5);
             Article tapis=new Article("TAPIS DE GYM",22,"tapis_gym.png",25);
@@ -28,19 +40,20 @@ public class Serveur {
             lArticlesDecathon.add(rack);
 
             //lancement Decathon
-            Magasin decathon = new Magasin(lArticlesDecathon);
+            decathon = new Magasin(lArticlesDecathon);
             InterMagasin decathonInter = decathon;
             reg.rebind("decathon", decathonInter);
 
             System.out.println("Decathon démaré");
 
-        //magasin Boulanger
+            //magasin Boulanger
             //preparation articles Boulanger
             Article baguette=new Article("Baguette",0.99,"baguette.png",30);
             Article croissant=new Article("Croissant",1.20,"croissant.png",25);
             Article painChocolat=new Article("Pain au chocolat",1.40,"pain_chocolat.png",18);
             Article tarteCitron=new Article("Tarte au citron meringuee", 5.90, "tarte_citron.png",5);
             Article tarteletteFraise=new Article("Tartelette aux fraises", 1.90, "tartelette_fraises.png",9);
+
 
             ArrayList<Article> lArticlesBoulanger=new ArrayList<>();
             lArticlesBoulanger.add(baguette);
@@ -50,15 +63,49 @@ public class Serveur {
             lArticlesBoulanger.add(tarteletteFraise);
 
             //lancement Boulanger
-            Magasin boulanger = new Magasin(lArticlesBoulanger);
+            boulanger = new Magasin(lArticlesBoulanger);
             InterMagasin boulangerInter = boulanger;
             reg.rebind("boulanger", boulangerInter);
 
-            System.out.println("Boulanger démaré");
+            System.out.println("Fonctionnel");
 
-        } catch (Exception e) {
+
+           FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Stock.fxml"));
+           Parent root = fxmlLoader.load();
+
+           stockController = fxmlLoader.getController();
+
+           Scene scene = new Scene(root);
+           stage.setScene(scene);
+           stage.show();
+
+           stockController.loadStock(decathon,boulanger);
+
+
+
+
+           Panier panier1 = new Panier();
+           panier1.ajouterArticle(baguette,1);
+
+
+
+               boulanger.effectuerPaiement("1234", panier1);
+
+
+
+
+
+        } catch (RemoteException e){
+            System.out.println("Magasin serveur échec : " + e.getMessage());
+        }
+        catch (Exception e){
             e.printStackTrace();
         }
     }
+
+    public static void updateAffichage(){
+        Platform.runLater(()-> {stockController.loadStock(decathon,boulanger);});
+    }
+
 
 }
