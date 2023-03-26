@@ -51,7 +51,6 @@ public class BanqueLauncher extends Application {
         Platform.runLater(()-> {banqueController.loadComptes(banque);});
 
 
-
     }
 
 

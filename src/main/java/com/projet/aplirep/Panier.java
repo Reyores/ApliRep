@@ -2,14 +2,18 @@ package com.projet.aplirep;
 
 import com.magasin.Article;
 
+import java.io.Serializable;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 import java.util.List;
 
-public class Panier {
+public class Panier extends UnicastRemoteObject {
 
     HashMap<Article,Integer> lArticles;
 
-    public Panier(){
+    public Panier() throws RemoteException {
+        super();
         lArticles=new HashMap<>();
     }
 

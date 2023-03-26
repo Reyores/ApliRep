@@ -18,7 +18,13 @@ public class Client {
         this.prenom = prenom;
         this.email = email;
         this.adresse = adresse;
-        this.panier = new Panier();
+
+        try {
+            this.panier = new Panier();
+        } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        }
+
         this.magasin = null;
     }
 

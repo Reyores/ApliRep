@@ -30,7 +30,7 @@ public class StockLauncher extends Application {
 
             Article velo=new Article("VELO VTT RANDONNEE",360,"velo.png",12);
             Article but=new Article("BUT DE FOOTBALL",150,"but_footabll.png",5);
-            Article tapis=new Article("TAPIS DE GYM",22,"tapis_gym.png",25);
+            Article tapis=new Article("TAPIS DE GYM",22,"tapis_gym.png",0);
             Article rack=new Article("RACK DE MUSCULATION", 300, "rack_muscu.png",9);
 
             ArrayList<Article> lArticlesDecathon=new ArrayList<>();
@@ -81,15 +81,6 @@ public class StockLauncher extends Application {
 
            stockController.loadStock(decathon,boulanger);
 
-
-
-
-           Panier panier1 = new Panier();
-           panier1.ajouterArticle(baguette,1);
-
-
-
-               boulanger.effectuerPaiement("1234", panier1);
 
 
 
