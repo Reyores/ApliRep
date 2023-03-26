@@ -1,10 +1,5 @@
 package com.magasin;
 
-import com.projet.aplirep.Banque;
-import com.projet.aplirep.BanqueInterface;
-
-import java.rmi.AccessException;
-import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
@@ -18,8 +13,6 @@ public class Serveur {
 
         try
         {
-
-
             Registry reg = LocateRegistry.createRegistry(port);
         //magasin Decathon
             //preparation articles Decathon
