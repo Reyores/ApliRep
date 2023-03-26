@@ -37,4 +37,8 @@ public class Article implements Serializable {
     public void retirerStock(int nb){
         stock = stock - nb;
     }
+
+    public double getPrice() { return prix; }
+
+    public String getImage() { return image; }
 }

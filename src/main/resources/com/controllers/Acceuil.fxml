@@ -17,7 +17,7 @@
       </Label>
       <Pane layoutX="153.0" layoutY="193.0" prefHeight="307.0" prefWidth="494.0" style="-fx-border-color: gray; -fx-border-radius: 10; -fx-background-color: bab5b5; -fx-background-radius: 10;">
          <children>
-            <Button fx:id="Decathon" layoutX="68.0" layoutY="191.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="122.0" text="Decathon">
+            <Button fx:id="btnDecathlon" layoutX="68.0" layoutY="191.0" mnemonicParsing="false" onAction="#afficherMagasin" prefHeight="53.0" prefWidth="122.0" text="decathon">
                <font>
                   <Font size="18.0" />
                </font>
@@ -26,7 +26,7 @@
                <image>
                   <Image url="@../../MagasinImg/Decathon.png" />
                </image></ImageView>
-            <Button fx:id="Boulanger" layoutX="301.0" layoutY="191.0" mnemonicParsing="false" prefHeight="53.0" prefWidth="122.0" text="Boulanger">
+            <Button fx:id="btnBoulangerie" layoutX="301.0" layoutY="191.0" mnemonicParsing="false" onAction="#afficherMagasin" prefHeight="53.0" prefWidth="122.0" text="boulanger">
                <font>
                   <Font size="18.0" />
                </font>

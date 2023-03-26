@@ -45,13 +45,15 @@ public class Magasin extends UnicastRemoteObject implements InterMagasin {
      @return - Retourne la validité du payement
      */
     @Override
-    public boolean effectuerPaiement(String id, Panier panier)
+    public boolean effectuerPaiement(String id, Panier panier) throws RemoteException
     {
+
         double prix = retournerSommeArticles(panier);
         boolean success = false;
 
         try
         {
+
             Registry registry = LocateRegistry.getRegistry("localhost", 3330);
             BanqueInterface banqueint = (BanqueInterface) registry.lookup("banque");
             success = banqueint.estSolvable(id, prix);
