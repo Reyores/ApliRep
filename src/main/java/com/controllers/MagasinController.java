@@ -4,6 +4,7 @@ import com.magasin.Article;
 import com.magasin.InterMagasin;
 import com.magasin.Magasin;
 import com.projet.aplirep.Banque;
+import com.projet.aplirep.BanqueInterface;
 import com.projet.aplirep.CompteBancaire;
 import com.projet.aplirep.Panier;
 import javafx.event.ActionEvent;
@@ -44,6 +45,7 @@ public class MagasinController implements Initializable
     static MagasinController magasinController;
 
     private double IntTot = 0;
+    static Magasin magasin;
     int quant = 0;
     int i = 0;
 
@@ -152,7 +154,6 @@ public class MagasinController implements Initializable
 
         labelNamePanier.setText(a.getNom());
         labelPricePanier.setText(Double.toString(a.getPrice()));
-        labelQuantite.setText("0");
 
         if(panierEnCours.getPanier().containsKey(a))
         {
@@ -160,8 +161,15 @@ public class MagasinController implements Initializable
 
             panierEnCours.modifierquantite(a, i+1);
 
+            if(i <= 0)
+            {
+                btnRemove.setText("Retirer du panier");
 
-            System.out.println(panierEnCours.getPanier().get(a));
+                contentPanier.getChildren().add(labelNamePanier);
+                contentPanier.getChildren().add(labelPricePanier);
+                contentPanier.getChildren().add(labelQuantite);
+                contentPanier.getChildren().add(btnRemove);
+            }
 
         }
         else
@@ -176,32 +184,29 @@ public class MagasinController implements Initializable
             contentPanier.getChildren().add(btnRemove);
         }
 
-        labelQuantite.setText(Integer.toString(i+1));
+        int b = panierEnCours.getPanier().get(a);
+        labelQuantite.setText(Integer.toString(b));
         IntTot += a.getPrice();
         labelTotal.setText(Double.toString(IntTot) + " euros");
     }
 
-    public void btnRetirerPanier(Panier panierEnCours, Article a, Label labelNamePanier, Label labelPricePanier, Button btnRemove, Label labelQuantite) {
-        panierEnCours.retirerArticle(a, 1);
-
-        quant = Integer.parseInt(labelQuantite.getText());
-        quant--;
-        labelQuantite.setText(Integer.toString(quant));
-
+    public void btnRetirerPanier(Panier panierEnCours, Article a, Label labelNamePanier, Label labelPricePanier, Button btnRemove, Label labelQuantite)
+    {
         i = panierEnCours.getPanier().get(a);
 
-        panierEnCours.modifierquantite(a, i--);
+        panierEnCours.modifierquantite(a, i-1);
 
-        if(i == 0)
+        IntTot -= a.getPrice();
+        labelTotal.setText(Double.toString(IntTot) + " euros");
+
+        if(panierEnCours.getPanier().get(a) <= 0)
         {
             contentPanier.getChildren().remove(labelNamePanier);
             contentPanier.getChildren().remove(labelPricePanier);
             contentPanier.getChildren().remove(btnRemove);
+            contentPanier.getChildren().remove(labelQuantite);
         }
 
-
-        IntTot -= a.getPrice();
-        labelTotal.setText(Double.toString(IntTot) + " euros");
     }
 
     public void payerPanier(ActionEvent event)
@@ -215,6 +220,7 @@ public class MagasinController implements Initializable
     {
         try
         {
+            System.out.println(" panier final " + panierEnCours.getPanier());
             Registry registry = LocateRegistry.getRegistry("localhost", 4330);
             InterMagasin magasininter = (InterMagasin) registry.lookup(labelMagasin.getText());
 
@@ -245,6 +251,8 @@ public class MagasinController implements Initializable
             System.out.println("Magasin serveur échec : " + e);
         } catch (NotBoundException e) {
             System.out.println("Magasin serveur échec out of bound : " + e.getMessage());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
