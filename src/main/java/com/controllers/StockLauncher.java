@@ -28,6 +28,7 @@ public class StockLauncher extends Application {
             int port=4330;
             Registry reg = LocateRegistry.createRegistry(port);
 
+
             Article velo=new Article("VELO VTT RANDONNEE",360,"velo.png",12);
             Article but=new Article("BUT DE FOOTBALL",150,"but_football.png",5);
             Article tapis=new Article("TAPIS DE GYM",22,"tapis_gym.png",0);

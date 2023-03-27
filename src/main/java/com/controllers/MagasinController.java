@@ -26,6 +26,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -175,11 +176,13 @@ public class MagasinController implements Initializable
 
             Registry registry = LocateRegistry.getRegistry("localhost", 4330);
             InterMagasin magasininter = (InterMagasin) registry.lookup(labelMagasin.getText());
-            System.out.println(magasininter.effectuerPaiement("1234", panierEnCours));
+            System.out.println(magasininter.effectuerPaiement("1234", panierEnCours.getPanier()));
         }
-        catch(Exception e)
+        catch(RemoteException e)
         {
             System.out.println("Magasin serveur échec : " + e);
+        } catch (NotBoundException e) {
+            System.out.println("Magasin serveur échec out of bound : " + e.getMessage());
         }
     }
 
