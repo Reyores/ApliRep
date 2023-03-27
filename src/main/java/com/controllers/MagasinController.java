@@ -94,6 +94,7 @@ public class MagasinController implements Initializable
 
     public void loadArticles(List<Article> listArticles) throws FileNotFoundException
     {
+
         contentDisplay.getChildren().clear();
 
         for(Article a : listArticles)
@@ -141,20 +142,23 @@ public class MagasinController implements Initializable
 
 
         contentPanier.getChildren().clear();
-        Label labelNamePanier = new Label();
-        Label labelPricePanier = new Label();
-        Label labelQuantite = new Label();
-        Button btnRemove = new Button();
+        IntTot = 0;
+        labelTotal.setText(Double.toString(IntTot) + " euros");
 
         Iterator iterator = panierEnCours.getPanier().entrySet().iterator();
         while (iterator.hasNext()) {
+
+            Label labelNamePanier = new Label();
+            Label labelPricePanier = new Label();
+            Label labelQuantite = new Label();
+            Button btnRemove = new Button();
 
             Map.Entry mapentry = (Map.Entry) iterator.next();
             Article a = (Article) mapentry.getKey();
             labelNamePanier.setText(a.getNom());
             labelPricePanier.setText(Double.toString(a.getPrice()));
             btnRemove.setText("Retirer du panier");
-
+            IntTot += a.getPrice() * panierEnCours.getPanier().get(a);
 
             btnRemove.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
@@ -170,9 +174,9 @@ public class MagasinController implements Initializable
 
             int b = panierEnCours.getPanier().get(a);
             labelQuantite.setText(Integer.toString(b));
-            IntTot += a.getPrice();
-            labelTotal.setText(Double.toString(IntTot) + " euros");
+
         }
+        labelTotal.setText(Double.toString(IntTot) + " euros");
 
 
 
@@ -184,25 +188,19 @@ public class MagasinController implements Initializable
 
     public void btnAjouterPanier(Panier paànierEnCours, Article a)
     {
-
+        System.out.println(panierEnCours.getPanier().containsKey(a) + "tt");
         if(panierEnCours.getPanier().containsKey(a))
         {
             i = panierEnCours.getPanier().get(a);
 
             panierEnCours.modifierquantite(a, i+1);
-
-            if(i >= 1)
-            {
-                loadPanier();
-            }
-
         }
         else
         {
+            System.out.println("passe la");
             panierEnCours.ajouterArticle(a, 1);
-            loadPanier();
         }
-
+        loadPanier();
 
     }
 
@@ -210,19 +208,30 @@ public class MagasinController implements Initializable
     {
         i = panierEnCours.getPanier().get(a);
 
-        panierEnCours.modifierquantite(a, i-1);
+
+        panierEnCours.modifierquantite(a, --i);
+
+        System.out.println(panierEnCours.getPanier());
 
         IntTot -= a.getPrice();
+        System.out.println(IntTot + "aie");
         labelTotal.setText(Double.toString(IntTot) + " euros");
-
-        if(panierEnCours.getPanier().get(a) <= 0)
+        System.out.println(i + " iii");
+        if(panierEnCours.getPanier().get(a) <=0)
         {
+            System.out.println("cc mon reuf");
             contentPanier.getChildren().remove(labelNamePanier);
             contentPanier.getChildren().remove(labelPricePanier);
             contentPanier.getChildren().remove(btnRemove);
             contentPanier.getChildren().remove(labelQuantite);
         }
 
+        int b = panierEnCours.getPanier().get(a);
+        labelQuantite.setText(Integer.toString(b));
+
+
+
+        System.out.println(panierEnCours.getPanier().get(a) <=0);
     }
 
     public void payerPanier(ActionEvent event)
