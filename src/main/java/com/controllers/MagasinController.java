@@ -15,8 +15,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
@@ -38,8 +40,16 @@ public class MagasinController implements Initializable
     private Stage stage;
     private Scene scene;
     private Parent root;
-    private double IntTot = 0;
+    static MagasinController magasinController;
 
+    private double IntTot = 0;
+    int quant = 0;
+    int i = 0;
+
+    @FXML
+    private TextField inputID;
+    @FXML
+    private Button btnValiderPayement;
     @FXML
     public Label labelTotal;
     @FXML
@@ -81,8 +91,6 @@ public class MagasinController implements Initializable
     {
         contentDisplay.getChildren().clear();
 
-
-
         for(Article a : listArticles)
         {
 
@@ -121,62 +129,108 @@ public class MagasinController implements Initializable
 
     public void btnAjouterPanier(Panier panierEnCours, Article a)
     {
-        panierEnCours.ajouterArticle(a, 1);
         Label labelNamePanier = new Label();
         Label labelPricePanier = new Label();
+        Label labelQuantite = new Label();
         Button btnRemove = new Button();
 
         btnRemove.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent)
             {
-                btnRetirerPanier(panierEnCours, a, labelNamePanier, labelPricePanier, btnRemove);
+                btnRetirerPanier(panierEnCours, a, labelNamePanier, labelPricePanier, btnRemove, labelQuantite);
             }
         });
 
         labelNamePanier.setText(a.getNom());
         labelPricePanier.setText(Double.toString(a.getPrice()));
-        btnRemove.setText("Retirer du panier");
+        labelQuantite.setText("0");
 
-        contentPanier.getChildren().add(labelNamePanier);
-        contentPanier.getChildren().add(labelPricePanier);
-        contentPanier.getChildren().add(btnRemove);
+        if(panierEnCours.getPanier().containsKey(a))
+        {
+            i = panierEnCours.getPanier().get(a);
 
+            panierEnCours.modifierquantite(a, i+1);
+
+
+            System.out.println(panierEnCours.getPanier().get(a));
+
+        }
+        else
+        {
+            panierEnCours.ajouterArticle(a, 1);
+
+            btnRemove.setText("Retirer du panier");
+
+            contentPanier.getChildren().add(labelNamePanier);
+            contentPanier.getChildren().add(labelPricePanier);
+            contentPanier.getChildren().add(labelQuantite);
+            contentPanier.getChildren().add(btnRemove);
+        }
+
+        labelQuantite.setText(Integer.toString(i+1));
         IntTot += a.getPrice();
-
         labelTotal.setText(Double.toString(IntTot) + " euros");
     }
 
-    public void btnRetirerPanier(Panier panierEnCours, Article a, Label labelNamePanier, Label labelPricePanier, Button btnRemove)
-    {
+    public void btnRetirerPanier(Panier panierEnCours, Article a, Label labelNamePanier, Label labelPricePanier, Button btnRemove, Label labelQuantite) {
         panierEnCours.retirerArticle(a, 1);
-        contentPanier.getChildren().remove(labelNamePanier);
-        contentPanier.getChildren().remove(labelPricePanier);
-        contentPanier.getChildren().remove(btnRemove);
+
+        quant = Integer.parseInt(labelQuantite.getText());
+        quant--;
+        labelQuantite.setText(Integer.toString(quant));
+
+        i = panierEnCours.getPanier().get(a);
+
+        panierEnCours.modifierquantite(a, i--);
+
+        if(i == 0)
+        {
+            contentPanier.getChildren().remove(labelNamePanier);
+            contentPanier.getChildren().remove(labelPricePanier);
+            contentPanier.getChildren().remove(btnRemove);
+        }
+
 
         IntTot -= a.getPrice();
-
         labelTotal.setText(Double.toString(IntTot) + " euros");
     }
-
-
-
-
-
-
 
     public void payerPanier(ActionEvent event)
     {
+        System.out.println(panierEnCours.getPanier());
+        btnValiderPayement.setVisible(true);
+        inputID.setVisible(true);
+    }
 
+    public void payerConfirmer(ActionEvent event)
+    {
         try
         {
-           // Article baguette=new Article("Baguette",0.99,"baguette.png",30);
-          //  Panier panier1 = new Panier();
-           // panier1.ajouterArticle(baguette,1);
-
             Registry registry = LocateRegistry.getRegistry("localhost", 4330);
             InterMagasin magasininter = (InterMagasin) registry.lookup(labelMagasin.getText());
-            System.out.println(magasininter.effectuerPaiement("1234", panierEnCours.getPanier()));
+
+            System.out.println(magasininter.effectuerPaiement(inputID.getText(), panierEnCours.getPanier()));
+
+            if(magasininter.effectuerPaiement(inputID.getText(), panierEnCours.getPanier()))
+            {
+                Alert b = new Alert(Alert.AlertType.INFORMATION);
+                b.setContentText("Achat réussi");
+                b.show();
+            }
+            else
+            {
+                Alert b = new Alert(Alert.AlertType.INFORMATION);
+                b.setContentText("Achat raté");
+                b.show();
+            }
+
+            contentPanier.getChildren().clear();
+            panierEnCours.viderPanier();
+            labelTotal.setText("0 euros");
+            btnValiderPayement.setVisible(false);
+            inputID.setVisible(false);
+
         }
         catch(RemoteException e)
         {
@@ -185,7 +239,6 @@ public class MagasinController implements Initializable
             System.out.println("Magasin serveur échec out of bound : " + e.getMessage());
         }
     }
-
 
 
     public void displayNomMagasin(String nomMagasin)

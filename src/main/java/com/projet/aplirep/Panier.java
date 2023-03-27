@@ -32,6 +32,10 @@ public class Panier extends UnicastRemoteObject {
         lArticles.remove(a,quantite);
     }
 
+    public void viderPanier(){
+        lArticles = new HashMap<>();
+    }
+
     public HashMap<Article,Integer> getPanier(){
         return lArticles;
     }
