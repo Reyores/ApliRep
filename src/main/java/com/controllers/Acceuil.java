@@ -80,6 +80,7 @@ public class Acceuil extends Application {
         catch(Exception e)
         {
             System.out.println("Magasin serveur échec : " + e.getMessage());
+            e.printStackTrace();
         }
 
 
