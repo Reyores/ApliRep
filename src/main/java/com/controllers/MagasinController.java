@@ -24,6 +24,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -98,8 +99,14 @@ public class MagasinController implements Initializable
             Label labelPrice = new Label();
             Label labelStock = new Label();
             Button btnSelect = new Button();
+            ImageView img = new ImageView();
 
             labelName.setStyle("-fx-font-size: 28px;");
+
+            Image image = new Image(new File(("target/classes/Produits/Images/"+a.getImage())).toURI().toString());
+            img.setImage(image);
+            img.setFitWidth(50);
+            img.setFitHeight(50);
 
             labelName.setText(a.getNom());
             labelPrice.setText("Prix : " +Double.toString(a.getPrice()) + " euros");
@@ -116,6 +123,7 @@ public class MagasinController implements Initializable
 
             contentDisplay.getChildren().add(labelName);
             contentDisplay.getChildren().add(labelPrice);
+            contentDisplay.getChildren().add(img);
             contentDisplay.getChildren().add(labelStock);
 
             if(a.getStock() > 0)
