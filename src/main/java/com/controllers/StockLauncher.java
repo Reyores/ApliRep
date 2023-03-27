@@ -28,8 +28,9 @@ public class StockLauncher extends Application {
             int port=4330;
             Registry reg = LocateRegistry.createRegistry(port);
 
-            Article velo=new Article("VELO VTT RANDONNEE",6,"velo.png",12);
-            Article but=new Article("BUT DE FOOTBALL",150,"but_footabll.png",5);
+
+            Article velo=new Article("VELO VTT RANDONNEE",360,"velo.png",12);
+            Article but=new Article("BUT DE FOOTBALL",150,"but_football.png",5);
             Article tapis=new Article("TAPIS DE GYM",22,"tapis_gym.png",0);
             Article rack=new Article("RACK DE MUSCULATION", 300, "rack_muscu.png",9);
 
@@ -52,7 +53,6 @@ public class StockLauncher extends Application {
             Article croissant=new Article("Croissant",1.20,"croissant.png",25);
             Article painChocolat=new Article("Pain au chocolat",1.40,"pain_chocolat.png",18);
             Article tarteCitron=new Article("Tarte au citron meringuee", 5.90, "tarte_citron.png",5);
-            Article tarteletteFraise=new Article("Tartelette aux fraises", 1.90, "tartelette_fraises.png",9);
 
 
             ArrayList<Article> lArticlesBoulanger=new ArrayList<>();
@@ -60,8 +60,6 @@ public class StockLauncher extends Application {
             lArticlesBoulanger.add(croissant);
             lArticlesBoulanger.add(painChocolat);
             lArticlesBoulanger.add(tarteCitron);
-            lArticlesBoulanger.add(tarteletteFraise);
-
             //lancement Boulanger
             boulanger = new Magasin(lArticlesBoulanger);
             InterMagasin boulangerInter = boulanger;
